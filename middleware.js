@@ -2,6 +2,11 @@ import {Negotiator} from "negotiator";
 import {defaultLocale, locales} from "@/config";
 import {match} from "@formatjs/intl-localematcher";
 
+const publicFile = /\.(.*)$/
+const excludeFiles = [
+    'logo.svg'
+]
+
 function getLocale(request) {
     const headers = {'accept-language': request.headers.get('accept-language') || ''};
     const languages = new Negotiator({headers}).languages();
@@ -20,8 +25,16 @@ export function middleware(request) {
         return;
     }
 
+    // Skip public files
+    if (publicFile.test(pathname) && !excludeFiles.includes(pathname.substring(1))) {
+        return;
+    }
+
     const locale = getLocale(request);
     request.nextUrl.pathname = `/${locale}${pathname}`;
+
+    console.log(1111)
+    console.log(locale, pathname)
 
     return Response.redirect(request.nextUrl);
 }
