@@ -16,6 +16,7 @@ function getLocale(request) {
 
 export function middleware(request) {
     const {pathname} = request.nextUrl;
+    console.log('pathname', pathname);
 
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -31,11 +32,15 @@ export function middleware(request) {
     }
 
     const locale = getLocale(request);
+
+    // don't redirect to default locale
+    // if (locale === defaultLocale) {
+    //     console.log('default locale', request.nextUrl);
+    //     request.nextUrl.pathname = pathname;
+    //     return NextResponse.redirect(request.nextUrl);
+    // }
+
     request.nextUrl.pathname = `/${locale}${pathname}`;
-
-    console.log(1111)
-    console.log(locale, pathname)
-
     return Response.redirect(request.nextUrl);
 }
 

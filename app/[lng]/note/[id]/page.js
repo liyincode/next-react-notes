@@ -1,7 +1,7 @@
 import Note from '@/components/Note'
 import {getNote} from '@/lib/redis';
 
-export default async function Page({ params }) {
+export default async function Page({params}) {
     // 动态路由 获取笔记 id
     const noteId = params.id;
     const note = await getNote(noteId)
@@ -10,12 +10,12 @@ export default async function Page({ params }) {
         return (
             <div className="note--empty-state">
         <span className="note-text--empty-state">
-          Click a note on the left to view something! 🥺
+          Click a note on the left to view something! 🥺 {params.lng}
         </span>
             </div>
         )
     }
 
-    return <Note noteId={noteId} note={note} />
+    return <Note noteId={noteId} note={note}/>
 }
 
