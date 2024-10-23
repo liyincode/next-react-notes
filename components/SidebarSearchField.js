@@ -1,7 +1,8 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation'
-import { useTransition } from 'react'
+import {usePathname, useRouter} from 'next/navigation'
+import {useTransition} from 'react'
+import {useTranslation} from "@/app/i18n/client.js";
 
 function Spinner({active = true}) {
     return (
@@ -13,8 +14,9 @@ function Spinner({active = true}) {
     );
 }
 
-export default function SidebarSearchField() {
-    const { replace } = useRouter()
+export default function SidebarSearchField({lng}) {
+    const {t} = useTranslation(lng)
+    const {replace} = useRouter()
     const pathname = usePathname()
     const [isPending, startTransition] = useTransition()
 
@@ -38,11 +40,11 @@ export default function SidebarSearchField() {
             </label>
             <input
                 id="sidebar-search-input"
-                placeholder="Search"
+                placeholder={t('search')}
                 type="text"
                 onChange={(e) => handleSearch(e.target.value)}
             />
-            <Spinner active={isPending} />
+            <Spinner active={isPending}/>
         </div>
     );
 }
