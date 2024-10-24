@@ -1,11 +1,11 @@
 'use client'
 
-import {useRouter} from "next/navigation";
-import {useTransition} from "react";
+import React from 'react'
+import { useRouter } from 'next/navigation'
+import { importNote } from '@/action'
 
 export default function SidebarImport() {
     const router = useRouter()
-    const [isPending, startTransition] = useTransition()
 
     const onChange = async (e) => {
         const fileInput = e.target;
@@ -17,24 +17,13 @@ export default function SidebarImport() {
 
         const file = fileInput.files[0];
 
+        // server action default to use FormData, so we need to use FormData here
         const formData = new FormData();
         formData.append("file", file);
 
         try {
-            const response = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) {
-                console.error("something went wrong");
-                return;
-            }
-
-            const data = await response.json();
-
-            startTransition(() => router.push(`/note/${data.uid}`))
-            startTransition(() => router.refresh())
+            const data = await importNote(formData);
+            router.push(`/note/${data.uid}`)
 
         } catch (error) {
             console.error("something went wrong");
@@ -45,12 +34,11 @@ export default function SidebarImport() {
         e.target.type = "file";
     };
 
+
     return (
-        <form method="post" enctype="multipart/form-data">
-            <div style={{textAlign: "center"}}>
-                <label for="file" style={{cursor: 'pointer'}}>Import .md File</label>
-                <input onChange={ onChange } type="file" id="file" name="file" multiple style={{position: "absolute", clip: "rect(0 0 0 0)"}}/>
-            </div>
-        </form>
+        <div style={{ textAlign: "center" }}>
+            <label htmlFor="file" style={{ cursor: 'pointer' }}>Import .md File</label>
+            <input type="file" id="file" name="file" style={{ position : "absolute", clip: "rect(0 0 0 0)" }} onChange={ onChange } accept=".md" />
+        </div>
     )
 }

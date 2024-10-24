@@ -4,8 +4,8 @@
       "@/*": [
         "./*"
       ],
-      "@/actions": [
-        "app/[lng]/actions.js"
+      "@/action": [
+        "app/[lng]/action.js"
       ],
       "@/components/*": [
         "components/*"
