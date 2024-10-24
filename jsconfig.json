@@ -1,18 +1,11 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/action": [
-        "app/[lng]/action.js"
-      ],
-      "@/components/*": [
-        "components/*"
-      ],
-      "@/lib/*": [
-        "lib/*"
-      ]
+      "@/*": ["./*"],
+      "@/action": ["app/[lng]/action.js"],
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"],
+      "auth": ["./auth"]
     }
   }
 }
