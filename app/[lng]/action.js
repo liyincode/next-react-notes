@@ -13,7 +13,6 @@ const schema = z.object({
 })
 
 export async function saveNote(prevState, formData) {
-    console.log('formData', formData)
     const noteId = formData.get('noteId')
 
     const data = {
